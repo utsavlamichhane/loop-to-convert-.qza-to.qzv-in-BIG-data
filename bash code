@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Create the visualizations directory, I am at my desktop here Desktop_utsav_mac
+mkdir -p visualizations
+
+# Convert dada2_stats.qza files
+for file in dada2_stats*.qza; do
+    qiime metadata tabulate \
+    --m-input-file $file \
+    --o-visualization visualizations/${file%.qza}.qzv
+done
+
+# Convert table.qza files
+for file in table*.qza; do
+    qiime feature-table summarize \
+    --i-table $file \
+    --o-visualization visualizations/${file%.qza}.qzv
+    # Add additional parameters as needed
+done
+
+# Convert rep_seqs.qza files
+for file in rep_seqs*.qza; do
+    qiime feature-table tabulate-seqs \
+    --i-data $file \
+    --o-visualization visualizations/${file%.qza}.qzv
+    # Add additional parameters as needed
+done
+
+echo "Conversion to .qzv files completed."
